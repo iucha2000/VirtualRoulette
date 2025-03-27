@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using VirtualRoulette.Domain.ValueObjects;
+
+namespace VirtualRoulette.Domain.Entities
+{
+    public class User : BaseEntity
+    {
+        public string Username { get; set; }
+        public string PasswordHash { get; set; }
+        public Money Balance { get; set; }
+        public DateTime LastActivity { get; private set; }
+        public bool IsActive { get; private set; }
+
+        public User() { }
+
+        public User(string username, string passwordHash, Money initialBalance) : base()
+        {
+            Username = username;
+            PasswordHash = passwordHash;
+            Balance = initialBalance;
+            LastActivity = DateTime.UtcNow;
+            IsActive = true;
+        }
+
+        public void UpdateBalance(decimal amount)
+        {
+            Balance = Balance.Add(amount);
+        }
+
+        public void UpdateLastActivity()
+        {
+            LastActivity = DateTime.UtcNow;
+        }
+
+        public bool IsInactive(int inactivityMinutes = 5)
+        {
+            return DateTime.UtcNow.Subtract(LastActivity).TotalMinutes > inactivityMinutes;
+        }
+
+        public void SignOut()
+        {
+            IsActive = false;
+        }
+    }
+}
