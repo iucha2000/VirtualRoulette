@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VirtualRoulette.Application.DTOs;
-using VirtualRoulette.Application.DTOs.User;
 using VirtualRoulette.Application.Features.Users.Commands;
 using VirtualRoulette.Application.Features.Users.Queries;
-using VirtualRoulette.Application.Interfaces.Services;
 
 namespace VirtualRoulette.API.Controllers
 {

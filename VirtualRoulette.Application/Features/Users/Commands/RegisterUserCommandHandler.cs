@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using VirtualRoulette.Application.Interfaces.Repositories;
 using VirtualRoulette.Application.Interfaces.Services;
 using VirtualRoulette.Domain.Entities;
+using VirtualRoulette.Domain.Exceptions;
+using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Application.Features.Users.Commands
 {
@@ -29,8 +31,7 @@ namespace VirtualRoulette.Application.Features.Users.Commands
 
             if (existingUser != null)
             {
-                //TODO throw exception when user already exists
-                return null;
+                throw new DuplicateEntityException(ErrorMessages.UserAlreadyExists);
             }
 
             var hashedPassword = _passwordHashService.HashPassword(request.Password);

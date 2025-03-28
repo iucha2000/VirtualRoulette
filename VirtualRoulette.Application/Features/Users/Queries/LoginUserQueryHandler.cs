@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using VirtualRoulette.Application.Interfaces.Repositories;
 using VirtualRoulette.Application.Interfaces.Services;
+using VirtualRoulette.Domain.Exceptions;
+using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Application.Features.Users.Queries
 {
@@ -28,8 +30,7 @@ namespace VirtualRoulette.Application.Features.Users.Queries
 
             if (user == null || !_passwordHashService.VerifyPassword(user.PasswordHash, request.Password))
             {
-                //TODO throw exception if user does not exist (if necessary)
-                return null;
+                throw new EntityNotFoundException(ErrorMessages.UserNotFound);
             }
 
             return _jwtTokenService.GenerateToken(user);

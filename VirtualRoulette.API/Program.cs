@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using VirtualRoulette.API.Middlewares;
 using VirtualRoulette.Application;
 using VirtualRoulette.Application.Interfaces.Repositories;
 using VirtualRoulette.Application.Interfaces.Services;
@@ -21,6 +22,8 @@ namespace VirtualRoulette.API
                 .AddApi();
 
             var app = builder.Build();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             //using (var scope = app.Services.CreateScope())
             //{
