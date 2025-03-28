@@ -1,6 +1,11 @@
 
 using Microsoft.EntityFrameworkCore;
+using VirtualRoulette.Application.Interfaces.Repositories;
+using VirtualRoulette.Application.Interfaces.Services;
+using VirtualRoulette.Infrastructure;
 using VirtualRoulette.Infrastructure.Persistence;
+using VirtualRoulette.Infrastructure.Persistence.Repositories;
+using VirtualRoulette.Infrastructure.Services;
 
 namespace VirtualRoulette.API
 {
@@ -10,15 +15,9 @@ namespace VirtualRoulette.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
-            builder.Services.AddDbContext<VirtualRouletteDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services
+                .AddInfrastructure(builder.Configuration)
+                .AddApi();
 
             var app = builder.Build();
 
@@ -28,7 +27,6 @@ namespace VirtualRoulette.API
             //    dbContext.Database.Migrate();
             //}
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -37,6 +35,7 @@ namespace VirtualRoulette.API
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();

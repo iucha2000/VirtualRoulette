@@ -17,11 +17,11 @@ namespace VirtualRoulette.Domain.Entities
 
         public User() { }
 
-        public User(string username, string passwordHash, Money initialBalance) : base()
+        public User(string username, string passwordHash) : base()
         {
             Username = username;
             PasswordHash = passwordHash;
-            Balance = initialBalance;
+            Balance = Money.Zero;
             LastActivity = DateTime.UtcNow;
             IsActive = true;
         }
