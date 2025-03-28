@@ -7,9 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Commands\" />
-    <Folder Include="Features\Queries\" />
+    <Folder Include="Features\Bets\Commands\" />
+    <Folder Include="Features\Bets\Queries\" />
+    <Folder Include="Features\Users\DTOs\" />
     <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
 
   <ItemGroup>

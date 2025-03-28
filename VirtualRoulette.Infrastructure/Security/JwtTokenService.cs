@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using VirtualRoulette.Application.Interfaces.Services;
 using VirtualRoulette.Domain.Entities;
 
-namespace VirtualRoulette.Infrastructure.Services
+namespace VirtualRoulette.Infrastructure.Security
 {
     public class JwtTokenService : IJwtTokenService
     {

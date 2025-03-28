@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using VirtualRoulette.Application.DTOs;
 using VirtualRoulette.Application.DTOs.User;
+using VirtualRoulette.Application.Features.Users.Commands;
+using VirtualRoulette.Application.Features.Users.Queries;
 using VirtualRoulette.Application.Interfaces.Services;
 
 namespace VirtualRoulette.API.Controllers
@@ -9,27 +13,26 @@ namespace VirtualRoulette.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IAuthService _authService;
+        private readonly IMediator _mediator;
 
-        public UserController(IAuthService authService)
+        public UserController(IMediator mediator)
         {
-            _authService = authService;
+            _mediator = mediator;
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] AuthRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterUserDto registerUserDto)
         {
-            var token = await _authService.RegisterAsync(request.Username, request.Password);
+            var token = await _mediator.Send(new RegisterUserCommand { Username = registerUserDto.Username, Password = registerUserDto.Password });
             return token == null ? BadRequest("Registration failed") : Ok(new { Token = token });
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] AuthRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginUserDto loginUserDto)
         {
-            var token = await _authService.LoginAsync(request.Username, request.Password);
+            var token = await _mediator.Send(new LoginUserQuery { Username = loginUserDto.Username, Password = loginUserDto.Password });
             return token == null ? Unauthorized() : Ok(new { Token = token });
         }
-
 
         [Authorize]
         [HttpPost("something")]

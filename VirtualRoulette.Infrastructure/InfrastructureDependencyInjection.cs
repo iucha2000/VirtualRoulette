@@ -9,7 +9,7 @@ using VirtualRoulette.Application.Interfaces.Repositories;
 using VirtualRoulette.Application.Interfaces.Services;
 using VirtualRoulette.Infrastructure.Persistence;
 using VirtualRoulette.Infrastructure.Persistence.Repositories;
-using VirtualRoulette.Infrastructure.Services;
+using VirtualRoulette.Infrastructure.Security;
 
 namespace VirtualRoulette.Infrastructure
 {
@@ -39,7 +39,6 @@ namespace VirtualRoulette.Infrastructure
 
         private static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPasswordHashService, PasswordHashService>();
             services.AddScoped<IJwtTokenService, JwtTokenService>();
 

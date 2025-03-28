@@ -1,11 +1,11 @@
 
 using Microsoft.EntityFrameworkCore;
+using VirtualRoulette.Application;
 using VirtualRoulette.Application.Interfaces.Repositories;
 using VirtualRoulette.Application.Interfaces.Services;
 using VirtualRoulette.Infrastructure;
 using VirtualRoulette.Infrastructure.Persistence;
 using VirtualRoulette.Infrastructure.Persistence.Repositories;
-using VirtualRoulette.Infrastructure.Services;
 
 namespace VirtualRoulette.API
 {
@@ -17,6 +17,7 @@ namespace VirtualRoulette.API
 
             builder.Services
                 .AddInfrastructure(builder.Configuration)
+                .AddApplication()
                 .AddApi();
 
             var app = builder.Build();
