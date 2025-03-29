@@ -28,8 +28,8 @@ namespace VirtualRoulette.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("BetAmount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<long>("BetAmount")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("BetDetails")
                         .IsRequired()
@@ -52,11 +52,11 @@ namespace VirtualRoulette.Infrastructure.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("WinAmount")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int?>("WinningNumber")
                         .HasColumnType("int");
+
+                    b.Property<long>("WonAmount")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -71,8 +71,8 @@ namespace VirtualRoulette.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -88,8 +88,8 @@ namespace VirtualRoulette.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<long>("Balance")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");

@@ -10,6 +10,7 @@ using VirtualRoulette.Application.Interfaces.Services;
 using VirtualRoulette.Infrastructure.Persistence;
 using VirtualRoulette.Infrastructure.Persistence.Repositories;
 using VirtualRoulette.Infrastructure.Security;
+using VirtualRoulette.Infrastructure.Services;
 
 namespace VirtualRoulette.Infrastructure
 {
@@ -33,6 +34,7 @@ namespace VirtualRoulette.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IBetRepository, BetRepository>();
             services.AddScoped<IJackpotRepository, JackpotRepository>();
+            services.AddScoped<IBetAnalyzerService, BetAnalyzerService>();
 
             return services;
         }

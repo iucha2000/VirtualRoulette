@@ -48,11 +48,12 @@ namespace VirtualRoulette.Infrastructure.Persistence
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.Property(b => b.SpinId).IsRequired();
+                entity.Property(b => b.BetDetails).IsRequired();
                 entity.Property(b => b.BetAmount).IsRequired();
                 entity.Property(b => b.IpAddress).IsRequired().HasMaxLength(45);
                 entity.Property(b => b.CreatedAt).IsRequired();
                 entity.Property(b => b.Status).IsRequired();
-                entity.Property(b => b.WinAmount).IsRequired();
+                entity.Property(b => b.WonAmount).IsRequired();
 
                 entity.Property(b => b.Status).HasConversion<int>();
             });
@@ -70,13 +71,10 @@ namespace VirtualRoulette.Infrastructure.Persistence
                 .Property(b => b.Balance)
                 .HasConversion(v => v.Amount, v => new Money(v));
             modelBuilder.Entity<Bet>()
-                .Property(b => b.BetDetails)
-                .HasConversion(v => v.BetJson, v => new BetDetails(v));
-            modelBuilder.Entity<Bet>()
                 .Property(b => b.BetAmount)
                 .HasConversion(v => v.Amount, v => new Money(v));
             modelBuilder.Entity<Bet>()
-                .Property(b => b.WinAmount)
+                .Property(b => b.WonAmount)
                 .HasConversion(v => v.Amount, v => new Money(v));
             modelBuilder.Entity<Jackpot>()
                 .Property(j => j.Amount)

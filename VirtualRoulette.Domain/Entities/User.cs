@@ -26,7 +26,7 @@ namespace VirtualRoulette.Domain.Entities
             IsActive = true;
         }
 
-        public void UpdateBalance(decimal amount)
+        public void UpdateBalance(long amount)
         {
             Balance = Balance.Add(amount);
         }

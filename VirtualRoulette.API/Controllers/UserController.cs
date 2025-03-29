@@ -21,14 +21,18 @@ namespace VirtualRoulette.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserDto registerUserDto)
         {
-            var token = await _mediator.Send(new RegisterUserCommand { Username = registerUserDto.Username, Password = registerUserDto.Password });
+            var command = new RegisterUserCommand { Username = registerUserDto.Username, Password = registerUserDto.Password };
+
+            var token = await _mediator.Send(command);
             return token == null ? BadRequest("Registration failed") : Ok(new { Token = token });
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDto loginUserDto)
         {
-            var token = await _mediator.Send(new LoginUserQuery { Username = loginUserDto.Username, Password = loginUserDto.Password });
+            var query = new LoginUserQuery { Username = loginUserDto.Username, Password = loginUserDto.Password };
+
+            var token = await _mediator.Send(query);
             return token == null ? Unauthorized() : Ok(new { Token = token });
         }
 

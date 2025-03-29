@@ -8,10 +8,10 @@ namespace VirtualRoulette.Domain.ValueObjects
 {
     public class Money
     {
-        public decimal Amount { get; private set; }
+        public long Amount { get; private set; }
         public static Money Zero => new(0);
 
-        public Money(decimal amount)
+        public Money(long amount)
         {
             if (amount < 0)
             {
@@ -21,7 +21,7 @@ namespace VirtualRoulette.Domain.ValueObjects
             Amount = amount;
         }
 
-        public Money Add(decimal amount) => new(Amount + amount);
-        public Money Subtract(decimal amount) => new(Amount - amount);
+        public Money Add(long amount) => new(Amount + amount);
+        public Money Subtract(long amount) => new(Amount - amount);
     }
 }

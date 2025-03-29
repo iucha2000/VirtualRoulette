@@ -18,7 +18,7 @@ namespace VirtualRoulette.Domain.Entities
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void AddToJackpot(decimal amount)
+        public void AddToJackpot(long amount)
         {
             Amount = Amount.Add(amount);
             UpdatedAt = DateTime.UtcNow;

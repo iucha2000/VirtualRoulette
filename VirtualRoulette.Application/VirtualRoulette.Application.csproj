@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Bets\Commands\" />
     <Folder Include="Features\Bets\Queries\" />
     <Folder Include="Services\" />
   </ItemGroup>
