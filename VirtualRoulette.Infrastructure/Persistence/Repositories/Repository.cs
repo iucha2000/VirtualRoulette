@@ -20,7 +20,7 @@ namespace VirtualRoulette.Infrastructure.Persistence.Repositories
             _dbSet = dbContext.Set<T>();
         }
 
-        public async Task<T?> GetByIdAsync(int id)
+        public async Task<T?> GetByIdAsync(Guid id)
         {
             return await _dbSet.FindAsync(id);
         }

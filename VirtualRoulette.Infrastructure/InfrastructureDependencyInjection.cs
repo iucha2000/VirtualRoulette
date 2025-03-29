@@ -31,6 +31,7 @@ namespace VirtualRoulette.Infrastructure
                 options.UseSqlServer(configuration.GetConnectionString("SqlConnection"));
             });
 
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IBetRepository, BetRepository>();
             services.AddScoped<IJackpotRepository, JackpotRepository>();

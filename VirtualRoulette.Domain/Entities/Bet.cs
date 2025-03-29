@@ -22,33 +22,24 @@ namespace VirtualRoulette.Domain.Entities
 
         public Bet() { }
 
-        public Bet(Guid userId, Guid spinId, string details, string ipAddress) : base()
+        public Bet(Guid userId, Guid spinId, string details, Money betAmount, string ipAddress, DateTime createdAt) : base()
         {
             UserId = userId;
             SpinId = spinId;
             BetDetails = details;
-            BetAmount = Money.Zero;
+            BetAmount = betAmount;
             IpAddress = ipAddress;
-            CreatedAt = DateTime.UtcNow;
-            Status = BetStatus.Pending;
+            CreatedAt = createdAt;
+            Status = BetStatus.Accepted;
             WinningNumber = null;
             WonAmount = Money.Zero;
         }
 
-        public void MarkAsAccepted()
+        public void UpdateWinnings(int winningNumber, long wonAmount)
         {
-            Status = BetStatus.Accepted;
-        }
-
-        public void MarkAsRejected()
-        {
-            Status = BetStatus.Rejected;
-        }
-
-        public void UpdateWinnings(long winAmount)
-        {
-            WonAmount = new Money(winAmount);
-            Status = winAmount > 0 ? BetStatus.Won : BetStatus.Lost;
+            WinningNumber = winningNumber;
+            WonAmount = new Money(wonAmount);
+            Status = wonAmount > 0 ? BetStatus.Won : BetStatus.Lost;
         }
     }
 }

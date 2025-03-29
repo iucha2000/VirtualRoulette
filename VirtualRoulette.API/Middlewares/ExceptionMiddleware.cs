@@ -20,6 +20,7 @@ namespace VirtualRoulette.API.Middlewares
             }
             catch (Exception ex)
             {
+                //TODO add logging here
                 await HandleExceptionAsync(context, ex);
             }
         }
@@ -33,7 +34,8 @@ namespace VirtualRoulette.API.Middlewares
 
             switch (exception)
             {
-                case ValidationException:
+                case ValidationException 
+                or NotEnoughBalanceException:
                     statusCode = (int)HttpStatusCode.BadRequest;
                     errorMessage = exception.Message;
                     break;

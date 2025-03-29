@@ -8,7 +8,6 @@ namespace VirtualRoulette.Domain.Enums
 {
     public enum BetStatus
     {
-        Pending,
         Accepted,
         Rejected,
         Won,

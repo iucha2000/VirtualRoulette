@@ -26,11 +26,6 @@ namespace VirtualRoulette.Domain.Entities
             IsActive = true;
         }
 
-        public void UpdateBalance(long amount)
-        {
-            Balance = Balance.Add(amount);
-        }
-
         public void UpdateLastActivity()
         {
             LastActivity = DateTime.UtcNow;
