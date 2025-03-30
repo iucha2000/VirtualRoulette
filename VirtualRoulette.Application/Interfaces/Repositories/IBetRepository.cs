@@ -9,6 +9,6 @@ namespace VirtualRoulette.Application.Interfaces.Repositories
 {
     public interface IBetRepository : IRepository<Bet>
     {
-        Task<IEnumerable<Bet>> GetBetsByUserIdAsync(Guid userId);
+        Task<IEnumerable<Bet>> GetBetsByUserIdAsync(Guid userId, int pageIndex, int pageSize);
     }
 }

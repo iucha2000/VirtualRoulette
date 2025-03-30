@@ -8,19 +8,19 @@ using VirtualRoulette.Shared.Extensions;
 
 namespace VirtualRoulette.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class BetController : ControllerBase
+    public class GameController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public BetController(IMediator mediator)
+        public GameController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [Authorize]
-        [HttpPost("make-bet")]
+        [HttpPost("bet")]
         public async Task<IActionResult> MakeBet([FromBody] MakeBetRequestDto makeBetDto)
         {
             var command = new MakeBetCommand { UserId = HttpContext.GetUserId(), Bet = makeBetDto.Bet, UserIP = HttpContext.GetUserIpAddress(), CreatedAt = DateTime.UtcNow };

@@ -35,7 +35,6 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
         public async Task<MakeBetResponseDto> Handle(MakeBetCommand request, CancellationToken cancellationToken)
         {
             //TODO implement jackpot functionality
-            //TODO think about storing Bet first and updating later
 
             //Check if bet has valid status
             if (!_betAnalyzerService.IsBetValid(request.Bet))
@@ -46,6 +45,7 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
                     SpinId = null,
                     WinningNumber = null,
                     WonAmount = null,
+                    Message = ClientMessages.BetIsNotValid,
                 };
             }
 
@@ -60,7 +60,14 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
             var betAmount = new Money(_betAnalyzerService.GetBetAmount(request.Bet));
             if (user.Balance.Amount < betAmount.Amount)
             {
-                throw new NotEnoughBalanceException(ErrorMessages.UserHasNotEnoughBalance);
+                return new MakeBetResponseDto
+                {
+                    Status = BetStatus.Rejected,
+                    SpinId = null,
+                    WinningNumber = null,
+                    WonAmount = null,
+                    Message = ClientMessages.UserHasNotEnoughBalance,
+                };
             }
             user.Balance = user.Balance.Subtract(betAmount.Amount);
             _userRepository.Update(user);
@@ -68,14 +75,18 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
             //Add bet with initial data to the database with accepted status
             var spinId = Guid.NewGuid();
             var bet = new Bet(user.Id, spinId, request.Bet, betAmount, request.UserIP, request.CreatedAt);
+            await _betRepository.AddAsync(bet);
+
+            //Initially save accepted bet and user balance change to the database
+            await _unitOfWork.SaveChangesAsync();
             
             //Generate winning number and check user won amount
-            int winnum = GenerateSecureRandomNumber(0, 36);
+            int winnum = GenerateSecureRandomNumber(NumberValues.RouletteMinValue, NumberValues.RouletteMaxValue);
             int wonAmount = _betAnalyzerService.EstimateBetWin(request.Bet, winnum);
 
             //Update user bet information with winning number and won amount
             bet.UpdateWinnings(winnum, wonAmount);
-            await _betRepository.AddAsync(bet);
+            _betRepository.Update(bet);
 
             if (wonAmount > 0)
             {
@@ -83,6 +94,7 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
                 _userRepository.Update(user);
             }
 
+            //Finally save bet result and user balance change (if user won) to the database
             await _unitOfWork.SaveChangesAsync();
 
             //Return spin info to user
@@ -92,16 +104,12 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
                 SpinId = spinId,
                 WinningNumber = winnum,
                 WonAmount = wonAmount,
+                Message = wonAmount > 0 ? ClientMessages.YouWonText : ClientMessages.YouLostText,
             };
         }
 
         private static int GenerateSecureRandomNumber(int min, int max)
         {
-            if (min > max)
-            {
-                throw new ArgumentOutOfRangeException(nameof(min), "Min cannot be greater than max");
-            }
-                
             uint range = (uint)(max - min + 1);
             uint limit = uint.MaxValue - (uint.MaxValue % range);
 

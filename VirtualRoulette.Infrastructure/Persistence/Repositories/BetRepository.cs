@@ -13,9 +13,14 @@ namespace VirtualRoulette.Infrastructure.Persistence.Repositories
     {
         public BetRepository(VirtualRouletteDbContext dbContext) : base(dbContext) { }
 
-        public async Task<IEnumerable<Bet>> GetBetsByUserIdAsync(Guid userId)
+        public async Task<IEnumerable<Bet>> GetBetsByUserIdAsync(Guid userId, int pageIndex, int pageSize)
         {
-            return await _dbSet.Where(b => b.UserId == userId).ToListAsync();
+            return await _dbSet
+                .Where(b => b.UserId == userId)
+                .OrderByDescending(b => b.CreatedAt)
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 namespace VirtualRoulette.API
 {
@@ -7,7 +8,12 @@ namespace VirtualRoulette.API
     {
         public static IServiceCollection AddApi(this IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
+
             services.AddEndpointsApiExplorer();
 
             services.AddSwaggerGen(c =>

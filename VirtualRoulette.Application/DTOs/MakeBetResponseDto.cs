@@ -13,5 +13,6 @@ namespace VirtualRoulette.Application.DTOs
         public Guid? SpinId { get; set; }
         public int? WinningNumber { get; set; }
         public int? WonAmount { get; set; }
+        public string? Message { get; set; }
     }
 }
