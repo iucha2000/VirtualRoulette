@@ -29,11 +29,7 @@ namespace VirtualRoulette.Domain.Entities
         public void UpdateLastActivity()
         {
             LastActivity = DateTime.UtcNow;
-        }
-
-        public bool IsInactive(int inactivityMinutes = 5)
-        {
-            return DateTime.UtcNow.Subtract(LastActivity).TotalMinutes > inactivityMinutes;
+            IsActive = true;
         }
 
         public void SignOut()

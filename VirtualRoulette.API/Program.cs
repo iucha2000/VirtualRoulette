@@ -42,6 +42,8 @@ namespace VirtualRoulette.API
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseMiddleware<UserActivityMiddleware>();
+
             app.MapControllers();
 
             app.Run();

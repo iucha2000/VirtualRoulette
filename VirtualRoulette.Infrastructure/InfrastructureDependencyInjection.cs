@@ -20,6 +20,15 @@ namespace VirtualRoulette.Infrastructure
         {
             services.AddAuthentication(configuration);
             services.AddPersistence(configuration);
+            services.AddServices(configuration);
+
+            return services;
+        }
+
+        private static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddScoped<IBetAnalyzerService, BetAnalyzerService>();
+            services.AddHostedService<InactiveUserSignOutService>();
 
             return services;
         }
@@ -35,8 +44,7 @@ namespace VirtualRoulette.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IBetRepository, BetRepository>();
             services.AddScoped<IJackpotRepository, JackpotRepository>();
-            services.AddScoped<IBetAnalyzerService, BetAnalyzerService>();
-
+            
             return services;
         }
 

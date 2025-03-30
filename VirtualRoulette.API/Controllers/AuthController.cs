@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VirtualRoulette.Application.DTOs;
 using VirtualRoulette.Application.Features.Users.Commands;
 using VirtualRoulette.Application.Features.Users.Queries;
 using VirtualRoulette.Shared.Constants;
+using VirtualRoulette.Shared.Extensions;
 
 namespace VirtualRoulette.API.Controllers
 {
@@ -35,6 +37,17 @@ namespace VirtualRoulette.API.Controllers
 
             var token = await _mediator.Send(query);
             return token == null ? BadRequest(ErrorMessages.LoginFailed) : Ok(new { Token = token });
+        }
+
+        [Authorize]
+        [HttpPost("sign-out")]
+        public async Task<IActionResult> Signout()
+        {
+            //TODO return results correctly for some methods
+            var command = new SignOutUserCommand { UserId = HttpContext.GetUserId() };
+
+            await _mediator.Send(command);
+            return Ok();
         }
     }
 }

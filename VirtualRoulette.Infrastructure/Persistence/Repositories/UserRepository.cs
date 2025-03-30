@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VirtualRoulette.Application.Interfaces.Repositories;
 using VirtualRoulette.Domain.Entities;
+using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Infrastructure.Persistence.Repositories
 {
@@ -16,6 +17,15 @@ namespace VirtualRoulette.Infrastructure.Persistence.Repositories
         public async Task<User?> GetByUsernameAsync(string username)
         {
             return await _dbSet.FirstOrDefaultAsync(x => x.Username == username);
+        }
+
+        public async Task<List<User>> GetInactiveUsersAsync(int inactivityMinutes = NumberValues.InactivityPeriod)
+        {
+            var cutoffTime = DateTime.UtcNow.AddMinutes(-inactivityMinutes);
+
+            return await _dbSet
+                .Where(u => u.LastActivity < cutoffTime && u.IsActive)
+                .ToListAsync();
         }
     }
 }
