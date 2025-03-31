@@ -6,13 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VirtualRoulette.Application.Interfaces.Repositories;
+using VirtualRoulette.Application.Interfaces.Services;
+using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Infrastructure.Services
 {
     public class InactiveUserSignOutService : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly TimeSpan _checkInterval = TimeSpan.FromMinutes(1);
+        private readonly TimeSpan _checkInterval = TimeSpan.FromMinutes(NumberValues.InactivityCheckPeriod);
 
         public InactiveUserSignOutService(IServiceProvider serviceProvider)
         {
@@ -26,14 +28,16 @@ namespace VirtualRoulette.Infrastructure.Services
                 using(var scope = _serviceProvider.CreateScope())
                 {
                     var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+                    var jackpotHubService = scope.ServiceProvider.GetRequiredService<IJackpotHubService>();
 
                     var inactiveUsers = await userRepository.GetInactiveUsersAsync();
 
                     foreach (var user in inactiveUsers)
                     {
-                        //TODO think about managing JWT token when signed out
                         user.SignOut();
                         userRepository.Update(user);
+
+                        await jackpotHubService.DisconnectUser(user.Id);
                     }
                     await userRepository.SaveChangesAsync();
                 }

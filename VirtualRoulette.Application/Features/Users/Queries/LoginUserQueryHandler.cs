@@ -33,6 +33,9 @@ namespace VirtualRoulette.Application.Features.Users.Queries
                 throw new EntityNotFoundException(ErrorMessages.UserNotFound);
             }
 
+            user.UpdateLastActivity();
+            await _userRepository.SaveChangesAsync();
+
             return _jwtTokenService.GenerateToken(user);
         }
     }

@@ -21,6 +21,7 @@ namespace VirtualRoulette.Application.Features.Users.Commands
 
         public async Task Handle(DepositFundsCommand request, CancellationToken cancellationToken)
         {
+            //TODO check user status to be active (in other methods as well)
             var user = await _userRepository.GetByIdAsync(request.UserId);
             if (user == null)
             {

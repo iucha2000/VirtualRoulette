@@ -11,5 +11,6 @@ namespace VirtualRoulette.Shared.Constants
         public const int RouletteMinValue = 0;
         public const int RouletteMaxValue = 36;
         public const int InactivityPeriod = 5;
+        public const int InactivityCheckPeriod = 1;
     }
 }

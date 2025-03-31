@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using VirtualRoulette.API.Hubs;
 using VirtualRoulette.API.Middlewares;
 using VirtualRoulette.Application;
 using VirtualRoulette.Application.Interfaces.Repositories;
@@ -7,6 +8,7 @@ using VirtualRoulette.Application.Interfaces.Services;
 using VirtualRoulette.Infrastructure;
 using VirtualRoulette.Infrastructure.Persistence;
 using VirtualRoulette.Infrastructure.Persistence.Repositories;
+using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.API
 {
@@ -25,26 +27,26 @@ namespace VirtualRoulette.API
 
             app.UseMiddleware<ExceptionMiddleware>();
 
-            //using (var scope = app.Services.CreateScope())
-            //{
-            //    var dbContext = scope.ServiceProvider.GetRequiredService<VirtualRouletteDbContext>();
-            //    dbContext.Database.Migrate();
-            //}
+            app.UseRouting();
+
+            app.UseCors(TextValues.AllowAllCors);
+            app.UseHttpsRedirection();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseWebSockets();
+
+            app.UseMiddleware<UserActivityMiddleware>();
+
+            app.MapControllers();
+            app.MapHub<JackpotHub>(TextValues.JackpotHubPath);
 
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseMiddleware<UserActivityMiddleware>();
-
-            app.MapControllers();
 
             app.Run();
         }

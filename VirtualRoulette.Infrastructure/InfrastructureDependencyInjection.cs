@@ -11,6 +11,7 @@ using VirtualRoulette.Infrastructure.Persistence;
 using VirtualRoulette.Infrastructure.Persistence.Repositories;
 using VirtualRoulette.Infrastructure.Security;
 using VirtualRoulette.Infrastructure.Services;
+using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Infrastructure
 {
@@ -70,6 +71,21 @@ namespace VirtualRoulette.Infrastructure
                     ValidAudience = configuration["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)),
                     ClockSkew = TimeSpan.Zero
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            context.HttpContext.Request.Path.StartsWithSegments(TextValues.JackpotHubPath))
+                        {
+                            context.Token = accessToken;
+                        }
+
+                        return Task.CompletedTask;
+                    }
                 };
             });
 

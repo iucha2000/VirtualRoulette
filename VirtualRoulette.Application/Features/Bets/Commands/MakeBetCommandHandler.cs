@@ -22,14 +22,16 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
         private readonly IBetRepository _betRepository;
         private readonly IUserRepository _userRepository;
         private readonly IBetAnalyzerService _betAnalyzerService;
+        private readonly IJackpotHubService _jackpotHubService;
         private static readonly RandomNumberGenerator _rng = RandomNumberGenerator.Create();
 
-        public MakeBetCommandHandler(IUnitOfWork unitOfWork, IBetRepository betRepository, IUserRepository userRepository, IBetAnalyzerService betAnalyzerService)
+        public MakeBetCommandHandler(IUnitOfWork unitOfWork, IBetRepository betRepository, IUserRepository userRepository, IBetAnalyzerService betAnalyzerService, IJackpotHubService jackpotHubService)
         {
             _unitOfWork = unitOfWork;
             _betRepository = betRepository;
             _userRepository = userRepository;
             _betAnalyzerService = betAnalyzerService;
+            _jackpotHubService = jackpotHubService;
         }
 
         public async Task<MakeBetResponseDto> Handle(MakeBetCommand request, CancellationToken cancellationToken)
@@ -71,6 +73,9 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
             }
             user.Balance = user.Balance.Subtract(betAmount.Amount);
             _userRepository.Update(user);
+
+            //TODO Push Jackpot update to all connected clients
+            await _jackpotHubService.PushJackpotUpdate(1000);
 
             //Add bet with initial data to the database with accepted status
             var spinId = Guid.NewGuid();
