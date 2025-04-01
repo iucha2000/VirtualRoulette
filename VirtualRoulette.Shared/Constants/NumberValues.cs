@@ -14,5 +14,6 @@ namespace VirtualRoulette.Shared.Constants
         public const int InactivityCheckPeriod = 1;
         public const long InitialJackpotValue = 100000;
         public const double JackpotIncreasePercentage = 0.1;
+        public const long UnitsPerCent = 10_000;
     }
 }

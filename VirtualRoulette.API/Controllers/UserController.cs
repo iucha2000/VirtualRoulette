@@ -23,7 +23,7 @@ namespace VirtualRoulette.API.Controllers
         [HttpGet("balance")]
         public async Task<IActionResult> Balance()
         {
-            var query = new GetBalanceQuery { UserId = HttpContext.GetUserId() };
+            var query = new GetBalanceQuery(HttpContext.GetUserId());
 
             var result = await _mediator.Send(query);
             return Ok(result);
@@ -33,7 +33,7 @@ namespace VirtualRoulette.API.Controllers
         [HttpPost("deposit-funds")]
         public async Task<IActionResult> DepositFunds([FromBody] DepositFundsDto depositFundsDto)
         {
-            var command = new DepositFundsCommand { UserId = HttpContext.GetUserId(), Amount = depositFundsDto.Amount };
+            var command = new DepositFundsCommand(HttpContext.GetUserId(), depositFundsDto.Amount);
 
             await _mediator.Send(command);
             return Ok();
@@ -43,7 +43,7 @@ namespace VirtualRoulette.API.Controllers
         [HttpPost("withdraw-funds")]
         public async Task<IActionResult> WithdrawFunds([FromBody] WithdrawFundsDto withdrawFundsDto)
         {
-            var command = new WithdrawFundsCommand { UserId = HttpContext.GetUserId(), Amount = withdrawFundsDto.Amount };
+            var command = new WithdrawFundsCommand(HttpContext.GetUserId(), withdrawFundsDto.Amount);
 
             await _mediator.Send(command);
             return Ok();
@@ -53,7 +53,7 @@ namespace VirtualRoulette.API.Controllers
         [HttpGet("history")]
         public async Task<IActionResult> GameHistory([FromQuery] GameHistoryRequestDto requestDto)
         {
-            var query = new GetGameHistoryQuery { UserId = HttpContext.GetUserId(), PageIndex = requestDto.PageIndex, PageSize = requestDto.PageSize };
+            var query = new GetGameHistoryQuery(HttpContext.GetUserId(), requestDto.PageIndex, requestDto.PageSize);
 
             var result = await _mediator.Send(query);
             return Ok(result);

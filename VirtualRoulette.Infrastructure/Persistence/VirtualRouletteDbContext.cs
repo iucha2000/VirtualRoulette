@@ -69,16 +69,16 @@ namespace VirtualRoulette.Infrastructure.Persistence
 
             modelBuilder.Entity<User>()
                 .Property(b => b.Balance)
-                .HasConversion(v => v.Amount, v => new Money(v));
+                .HasConversion(v => v.CentAmount, v => new Money(v));
             modelBuilder.Entity<Bet>()
                 .Property(b => b.BetAmount)
-                .HasConversion(v => v.Amount, v => new Money(v));
+                .HasConversion(v => v.CentAmount, v => new Money(v));
             modelBuilder.Entity<Bet>()
                 .Property(b => b.WonAmount)
-                .HasConversion(v => v.Amount, v => new Money(v));
+                .HasConversion(v => v.CentAmount, v => new Money(v));
             modelBuilder.Entity<Jackpot>()
                 .Property(j => j.Amount)
-                .HasConversion(v => v.Amount, v => new Money(v));
+                .HasConversion(v => v.CentAmount, v => new Money(v));
         }
     }
 }

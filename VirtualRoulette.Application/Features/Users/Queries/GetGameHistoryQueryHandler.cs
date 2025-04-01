@@ -35,8 +35,8 @@ namespace VirtualRoulette.Application.Features.Users.Queries
             var userGames = userBets.Select(b => new GameHistoryEntry
             {
                 SpinId = b.SpinId,
-                BetAmount = b.BetAmount.Amount,
-                WonAmount = b.WonAmount.Amount,
+                BetAmount = b.BetAmount.CentAmount,
+                WonAmount = b.WonAmount.CentAmount,
                 CreatedAt = b.CreatedAt,
             }).ToList();
 

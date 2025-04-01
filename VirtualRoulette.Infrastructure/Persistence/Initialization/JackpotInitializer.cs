@@ -30,7 +30,6 @@ namespace VirtualRoulette.Infrastructure.Persistence.Initialization
                 if (currentJackpot == null)
                 {
                     var jackpot = new Jackpot();
-                    jackpot.AddToJackpot(NumberValues.InitialJackpotValue);
 
                     await jackpotRepository.AddAsync(jackpot);
                     await jackpotRepository.SaveChangesAsync();

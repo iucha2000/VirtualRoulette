@@ -34,12 +34,11 @@ namespace VirtualRoulette.Infrastructure.Persistence.Repositories
                 throw new EntityNotFoundException(ErrorMessages.JackpotNotFound);
             }
 
-            long amountToAdd = (long)(betAmount * NumberValues.JackpotIncreasePercentage);
-            currentJackpot.AddToJackpot(amountToAdd);
+            currentJackpot.AddPercentageToJackpot(betAmount, NumberValues.JackpotIncreasePercentage);
 
             await SaveChangesAsync();
 
-            await _jackpotHubService.PushJackpotUpdate(currentJackpot.Amount.Amount);
+            await _jackpotHubService.PushJackpotUpdate(currentJackpot.Amount.CentAmount);
         }
     }
 }

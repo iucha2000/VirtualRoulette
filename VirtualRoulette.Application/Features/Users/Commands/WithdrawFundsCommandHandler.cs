@@ -27,7 +27,7 @@ namespace VirtualRoulette.Application.Features.Users.Commands
                 throw new EntityNotFoundException(ErrorMessages.UserNotAuthenticated);
             }
 
-            if(user.Balance.Amount < request.Amount)
+            if(user.Balance.CentAmount < request.Amount)
             {
                 throw new NotEnoughBalanceException(ErrorMessages.NotEnoughBalance);
             }

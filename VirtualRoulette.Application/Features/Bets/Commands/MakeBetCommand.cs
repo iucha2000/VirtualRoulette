@@ -9,11 +9,5 @@ using VirtualRoulette.Domain.ValueObjects;
 
 namespace VirtualRoulette.Application.Features.Bets.Commands
 {
-    public class MakeBetCommand : IRequest<MakeBetResponseDto>
-    {
-        public Guid UserId { get; set; }
-        public string Bet {  get; set; } = string.Empty;
-        public string UserIP { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; }
-    }
+    public record MakeBetCommand(Guid UserId, string Bet, string UserIP, DateTime CreatedAt) : IRequest<MakeBetResponseDto>;
 }

@@ -60,7 +60,7 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
 
             //Check if user has enough balance for provided bet amount
             var betAmount = new Money(_betAnalyzerService.GetBetAmount(request.Bet));
-            if (user.Balance.Amount < betAmount.Amount)
+            if (user.Balance.CentAmount < betAmount.CentAmount)
             {
                 return new MakeBetResponseDto
                 {
@@ -71,10 +71,10 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
                     Message = ClientMessages.UserHasNotEnoughBalance,
                 };
             }
-            user.Balance = user.Balance.Subtract(betAmount.Amount);
+            user.Balance = user.Balance.Subtract(betAmount.CentAmount);
 
             //Update current jackpot amount and notify connected clients
-            await _jackpotRepository.IncreaseJackpotAmountAsync(betAmount.Amount);
+            await _jackpotRepository.IncreaseJackpotAmountAsync(betAmount.CentAmount);
 
             //Add bet with initial data to the database with accepted status
             var spinId = Guid.NewGuid();
@@ -86,7 +86,7 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
             
             //Generate winning number and check user won amount
             int winnum = GenerateSecureRandomNumber(NumberValues.RouletteMinValue, NumberValues.RouletteMaxValue);
-            int wonAmount = _betAnalyzerService.EstimateBetWin(request.Bet, winnum);
+            long wonAmount = _betAnalyzerService.EstimateBetWin(request.Bet, winnum);
 
             //Update user bet information with winning number and won amount
             bet.UpdateWinnings(winnum, wonAmount);

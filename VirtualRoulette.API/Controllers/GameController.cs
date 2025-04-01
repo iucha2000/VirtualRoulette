@@ -27,8 +27,8 @@ namespace VirtualRoulette.API.Controllers
         [HttpPost("bet")]
         public async Task<IActionResult> MakeBet([FromBody] MakeBetRequestDto makeBetDto)
         {
-            var command = new MakeBetCommand { UserId = HttpContext.GetUserId(), Bet = makeBetDto.Bet, UserIP = HttpContext.GetUserIpAddress(), CreatedAt = DateTime.UtcNow };
-
+            var command = new MakeBetCommand(HttpContext.GetUserId(), makeBetDto.Bet, HttpContext.GetUserIpAddress(), DateTime.UtcNow);
+            
             var result = await _mediator.Send(command);
             return Ok(result);
         }
@@ -37,7 +37,7 @@ namespace VirtualRoulette.API.Controllers
         [HttpGet("jackpot")]
         public async Task<IActionResult> CurrentJackpot()
         {
-            var query = new GetCurrentJackpotQuery { UserId = HttpContext.GetUserId() };
+            var query = new GetCurrentJackpotQuery(HttpContext.GetUserId());
 
             var result = await _mediator.Send(query);
             return Ok(result);

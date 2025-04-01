@@ -31,7 +31,7 @@ namespace VirtualRoulette.Application.Features.Users.Queries
             user.UpdateLastActivity();
             await _userRepository.SaveChangesAsync();
 
-            return new UserBalanceDto { Amount = user.Balance.Amount };
+            return new UserBalanceDto { Amount = user.Balance.CentAmount };
         }
     }
 }

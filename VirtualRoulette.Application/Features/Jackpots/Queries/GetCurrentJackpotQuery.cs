@@ -8,8 +8,5 @@ using VirtualRoulette.Application.DTOs;
 
 namespace VirtualRoulette.Application.Features.Jackpots.Queries
 {
-    public class GetCurrentJackpotQuery : IRequest<CurrentJackpotDto>
-    {
-        public Guid UserId { get; set; }
-    }
+    public record GetCurrentJackpotQuery(Guid UserId) : IRequest<CurrentJackpotDto>;
 }

@@ -8,10 +8,5 @@ using VirtualRoulette.Application.DTOs;
 
 namespace VirtualRoulette.Application.Features.Users.Queries
 {
-    public class GetGameHistoryQuery : IRequest<GameHistoryResponseDto>
-    {
-        public Guid UserId { get; set; }
-        public int PageIndex { get; set; }
-        public int PageSize { get; set; }
-    }
+    public record GetGameHistoryQuery(Guid UserId, int PageIndex, int PageSize) : IRequest<GameHistoryResponseDto>;
 }

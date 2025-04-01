@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Domain.ValueObjects
 {
     public class Money
     {
-        public long Amount { get; private set; }
+        public long CentAmount { get; private set; }
         public static Money Zero => new(0);
 
-        public Money(long amount)
+        public Money(long centAmount)
         {
-            if (amount < 0)
+            if (centAmount < 0)
             {
-                throw new ArgumentException("Money amount cannot be negative.");
+                throw new ArgumentException(ErrorMessages.MoneyCanNotBeNegative);
             }
                 
-            Amount = amount;
+            CentAmount = centAmount;
         }
 
-        public Money Add(long amount) => new(Amount + amount);
-        public Money Subtract(long amount) => new(Amount - amount);
+        public Money Add(long centAmount) => new(CentAmount + centAmount);
+        public Money Subtract(long centAmount) => new(CentAmount - centAmount);
     }
 }

@@ -7,9 +7,5 @@ using System.Threading.Tasks;
 
 namespace VirtualRoulette.Application.Features.Users.Commands
 {
-    public class DepositFundsCommand : IRequest
-    {
-        public Guid UserId { get; set; }
-        public long Amount { get; set; }
-    }
+    public record DepositFundsCommand(Guid UserId, long Amount) : IRequest;
 }

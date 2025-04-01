@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VirtualRoulette.Shared\VirtualRoulette.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

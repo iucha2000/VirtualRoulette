@@ -24,7 +24,7 @@ namespace VirtualRoulette.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserDto registerUserDto)
         {
-            var command = new RegisterUserCommand { Username = registerUserDto.Username, Password = registerUserDto.Password };
+            var command = new RegisterUserCommand(registerUserDto.Username, registerUserDto.Password);
 
             var token = await _mediator.Send(command);
             return token == null ? BadRequest(ErrorMessages.RegistrationFailed) : Ok(new { Token = token });
@@ -33,7 +33,7 @@ namespace VirtualRoulette.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDto loginUserDto)
         {
-            var query = new LoginUserQuery { Username = loginUserDto.Username, Password = loginUserDto.Password };
+            var query = new LoginUserQuery(loginUserDto.Username, loginUserDto.Password);
 
             var token = await _mediator.Send(query);
             return token == null ? BadRequest(ErrorMessages.LoginFailed) : Ok(new { Token = token });
@@ -43,7 +43,7 @@ namespace VirtualRoulette.API.Controllers
         [HttpPost("sign-out")]
         public async Task<IActionResult> Signout()
         {
-            var command = new SignOutUserCommand { UserId = HttpContext.GetUserId() };
+            var command = new SignOutUserCommand(HttpContext.GetUserId());
 
             await _mediator.Send(command);
             return Ok();

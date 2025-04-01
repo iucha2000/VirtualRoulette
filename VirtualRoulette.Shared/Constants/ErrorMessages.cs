@@ -17,5 +17,6 @@ namespace VirtualRoulette.Shared.Constants
         public const string DatabaseUpdateError = "An error occurred while saving changes to the database.";
         public const string MinGreaterThanMax = "Min value can not be greater than Max value.";
         public const string JackpotNotFound = "Jackpot not found for this game session.";
+        public const string MoneyCanNotBeNegative = "Money amount cannot be negative.";
     }
 }

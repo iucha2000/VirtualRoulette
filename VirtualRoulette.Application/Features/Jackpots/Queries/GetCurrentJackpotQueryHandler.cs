@@ -39,7 +39,7 @@ namespace VirtualRoulette.Application.Features.Jackpots.Queries
             user.UpdateLastActivity();
             await _userRepository.SaveChangesAsync();
 
-            return new CurrentJackpotDto { Amount = currentJackpot.Amount.Amount };
+            return new CurrentJackpotDto { Amount = currentJackpot.Amount.CentAmount };
         }
     }
 }

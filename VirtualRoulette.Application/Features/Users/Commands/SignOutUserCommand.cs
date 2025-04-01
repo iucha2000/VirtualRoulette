@@ -7,8 +7,5 @@ using System.Threading.Tasks;
 
 namespace VirtualRoulette.Application.Features.Users.Commands
 {
-    public class SignOutUserCommand : IRequest
-    {
-        public Guid UserId { get; set; }
-    }
+    public record SignOutUserCommand(Guid UserId) : IRequest;
 }
