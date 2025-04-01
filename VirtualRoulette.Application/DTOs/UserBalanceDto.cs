@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VirtualRoulette.Application.DTOs
 {
-    public class GetUserBalanceDto
+    public class UserBalanceDto
     {
         public long Amount { get; set; }
     }

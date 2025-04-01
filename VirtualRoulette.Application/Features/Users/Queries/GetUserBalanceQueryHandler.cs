@@ -11,7 +11,7 @@ using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Application.Features.Users.Queries
 {
-    public class GetUserBalanceQueryHandler : IRequestHandler<GetUserBalanceQuery, GetUserBalanceDto>
+    public class GetUserBalanceQueryHandler : IRequestHandler<GetUserBalanceQuery, UserBalanceDto>
     {
         private readonly IUserRepository _userRepository;
 
@@ -20,7 +20,7 @@ namespace VirtualRoulette.Application.Features.Users.Queries
             _userRepository = userRepository;
         }
 
-        public async Task<GetUserBalanceDto> Handle(GetUserBalanceQuery request, CancellationToken cancellationToken)
+        public async Task<UserBalanceDto> Handle(GetUserBalanceQuery request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(request.UserId);
             if(user == null)
@@ -28,7 +28,7 @@ namespace VirtualRoulette.Application.Features.Users.Queries
                 throw new EntityNotFoundException(ErrorMessages.UserNotAuthenticated);
             }
 
-            return new GetUserBalanceDto { Amount = user.Balance.Amount };
+            return new UserBalanceDto { Amount = user.Balance.Amount };
         }
     }
 }

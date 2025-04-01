@@ -10,5 +10,6 @@ namespace VirtualRoulette.Application.Interfaces.Repositories
     public interface IJackpotRepository : IRepository<Jackpot>
     {
         Task<Jackpot?> GetLatestJackpotAsync();
+        Task IncreaseJackpotAmountAsync(long betAmount);
     }
 }

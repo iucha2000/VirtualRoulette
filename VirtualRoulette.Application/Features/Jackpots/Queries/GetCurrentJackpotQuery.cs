@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using VirtualRoulette.Application.DTOs;
 
-namespace VirtualRoulette.Application.Features.Users.Queries
+namespace VirtualRoulette.Application.Features.Jackpots.Queries
 {
-    public class GetUserBalanceQuery : IRequest<UserBalanceDto>
+    public class GetCurrentJackpotQuery : IRequest<CurrentJackpotDto>
     {
         public Guid UserId { get; set; }
     }

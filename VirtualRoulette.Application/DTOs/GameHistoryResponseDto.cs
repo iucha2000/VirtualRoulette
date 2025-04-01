@@ -7,7 +7,7 @@ using VirtualRoulette.Domain.ValueObjects;
 
 namespace VirtualRoulette.Application.DTOs
 {
-    public class GetGameHistoryResponseDto
+    public class GameHistoryResponseDto
     {
         public List<GameHistoryEntry> Entries { get; set; } = new List<GameHistoryEntry>();
     }

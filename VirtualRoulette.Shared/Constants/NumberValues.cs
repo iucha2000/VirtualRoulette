@@ -12,5 +12,7 @@ namespace VirtualRoulette.Shared.Constants
         public const int RouletteMaxValue = 36;
         public const int InactivityPeriod = 5;
         public const int InactivityCheckPeriod = 1;
+        public const long InitialJackpotValue = 100000;
+        public const double JackpotIncreasePercentage = 0.1;
     }
 }

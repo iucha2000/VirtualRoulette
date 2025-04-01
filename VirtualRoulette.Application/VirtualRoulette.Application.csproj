@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Features\Bets\Queries\" />
+    <Folder Include="Features\Jackpots\Commands\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

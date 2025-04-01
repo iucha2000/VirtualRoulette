@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VirtualRoulette.Application.DTOs
 {
-    public class GetGameHistoryRequestDto
+    public class GameHistoryRequestDto
     {
         public int PageIndex { get; set; }
         public int PageSize { get; set; }

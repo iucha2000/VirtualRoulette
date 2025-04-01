@@ -8,6 +8,7 @@ using System.Text;
 using VirtualRoulette.Application.Interfaces.Repositories;
 using VirtualRoulette.Application.Interfaces.Services;
 using VirtualRoulette.Infrastructure.Persistence;
+using VirtualRoulette.Infrastructure.Persistence.Initialization;
 using VirtualRoulette.Infrastructure.Persistence.Repositories;
 using VirtualRoulette.Infrastructure.Security;
 using VirtualRoulette.Infrastructure.Services;
@@ -30,6 +31,7 @@ namespace VirtualRoulette.Infrastructure
         {
             services.AddScoped<IBetAnalyzerService, BetAnalyzerService>();
             services.AddHostedService<InactiveUserSignOutService>();
+            services.AddHostedService<JackpotInitializer>();
 
             return services;
         }

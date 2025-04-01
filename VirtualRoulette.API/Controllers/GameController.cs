@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VirtualRoulette.Application.DTOs;
 using VirtualRoulette.Application.Features.Bets.Commands;
+using VirtualRoulette.Application.Features.Jackpots.Queries;
 using VirtualRoulette.Application.Interfaces.Repositories;
 using VirtualRoulette.Application.Interfaces.Services;
 using VirtualRoulette.Domain.Entities;
@@ -16,14 +17,10 @@ namespace VirtualRoulette.API.Controllers
     public class GameController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IJackpotRepository _jackpotRepository;
-        private readonly IJackpotHubService _jackpotHubService;
 
-        public GameController(IMediator mediator, IJackpotRepository jackpotRepository, IJackpotHubService jackpotHubService)
+        public GameController(IMediator mediator)
         {
             _mediator = mediator;
-            _jackpotRepository = jackpotRepository;
-            _jackpotHubService = jackpotHubService;
         }
 
         [Authorize]
@@ -40,20 +37,10 @@ namespace VirtualRoulette.API.Controllers
         [HttpGet("jackpot")]
         public async Task<IActionResult> CurrentJackpot()
         {
-            //TODO implement it
-            return Ok();
-        }
+            var query = new GetCurrentJackpotQuery { UserId = HttpContext.GetUserId() };
 
-        [HttpPost("update-jackpot")]
-        public async Task<IActionResult> UpdateJackpot(long newAmount)
-        {
-            var jackpot = new Jackpot();
-            jackpot.AddToJackpot(newAmount);
-            await _jackpotRepository.AddAsync(jackpot);
-            await _jackpotRepository.SaveChangesAsync();
-
-            await _jackpotHubService.PushJackpotUpdate(newAmount);
-            return Ok();
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
     }
 }

@@ -11,7 +11,7 @@ using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Application.Features.Users.Queries
 {
-    public class GetGameHistoryQueryHandler : IRequestHandler<GetGameHistoryQuery, GetGameHistoryResponseDto>
+    public class GetGameHistoryQueryHandler : IRequestHandler<GetGameHistoryQuery, GameHistoryResponseDto>
     {
         private readonly IUserRepository _userRepository;
         private readonly IBetRepository _betRepository;
@@ -22,7 +22,7 @@ namespace VirtualRoulette.Application.Features.Users.Queries
             _betRepository = betRepository;
         }
 
-        public async Task<GetGameHistoryResponseDto> Handle(GetGameHistoryQuery request, CancellationToken cancellationToken)
+        public async Task<GameHistoryResponseDto> Handle(GetGameHistoryQuery request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(request.UserId);
             if (user == null)
@@ -40,7 +40,7 @@ namespace VirtualRoulette.Application.Features.Users.Queries
                 CreatedAt = b.CreatedAt,
             }).ToList();
 
-            return new GetGameHistoryResponseDto { Entries = userGames };
+            return new GameHistoryResponseDto { Entries = userGames };
         }
     }
 }

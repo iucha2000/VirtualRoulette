@@ -51,7 +51,7 @@ namespace VirtualRoulette.API.Controllers
 
         [Authorize]
         [HttpGet("history")]
-        public async Task<IActionResult> GameHistory([FromQuery] GetGameHistoryRequestDto requestDto)
+        public async Task<IActionResult> GameHistory([FromQuery] GameHistoryRequestDto requestDto)
         {
             var query = new GetGameHistoryQuery { UserId = HttpContext.GetUserId(), PageIndex = requestDto.PageIndex, PageSize = requestDto.PageSize };
 
