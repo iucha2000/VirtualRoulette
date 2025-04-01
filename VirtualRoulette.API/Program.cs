@@ -37,8 +37,6 @@ namespace VirtualRoulette.API
 
             app.UseWebSockets();
 
-            app.UseMiddleware<UserActivityMiddleware>();
-
             app.MapControllers();
             app.MapHub<JackpotHub>(TextValues.JackpotHubPath);
 

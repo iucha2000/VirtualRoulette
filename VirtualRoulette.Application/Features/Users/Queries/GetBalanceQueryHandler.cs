@@ -11,22 +11,25 @@ using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Application.Features.Users.Queries
 {
-    public class GetUserBalanceQueryHandler : IRequestHandler<GetUserBalanceQuery, UserBalanceDto>
+    public class GetBalanceQueryHandler : IRequestHandler<GetBalanceQuery, UserBalanceDto>
     {
         private readonly IUserRepository _userRepository;
 
-        public GetUserBalanceQueryHandler(IUserRepository userRepository)
+        public GetBalanceQueryHandler(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        public async Task<UserBalanceDto> Handle(GetUserBalanceQuery request, CancellationToken cancellationToken)
+        public async Task<UserBalanceDto> Handle(GetBalanceQuery request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(request.UserId);
-            if(user == null)
+            if(user == null || !user.IsActive)
             {
                 throw new EntityNotFoundException(ErrorMessages.UserNotAuthenticated);
             }
+
+            user.UpdateLastActivity();
+            await _userRepository.SaveChangesAsync();
 
             return new UserBalanceDto { Amount = user.Balance.Amount };
         }

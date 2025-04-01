@@ -37,8 +37,6 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
 
         public async Task<MakeBetResponseDto> Handle(MakeBetCommand request, CancellationToken cancellationToken)
         {
-            //TODO implement jackpot functionality
-
             //Check if bet has valid status
             if (!_betAnalyzerService.IsBetValid(request.Bet))
             {
@@ -54,10 +52,11 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
 
             //Check if user is authenticated with valid Id
             var user = await _userRepository.GetByIdAsync(request.UserId);
-            if(user == null)
+            if(user == null || !user.IsActive)
             {
                 throw new EntityNotFoundException(ErrorMessages.UserNotAuthenticated);
             }
+            user.UpdateLastActivity();
 
             //Check if user has enough balance for provided bet amount
             var betAmount = new Money(_betAnalyzerService.GetBetAmount(request.Bet));
@@ -73,7 +72,6 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
                 };
             }
             user.Balance = user.Balance.Subtract(betAmount.Amount);
-            _userRepository.Update(user);
 
             //Update current jackpot amount and notify connected clients
             await _jackpotRepository.IncreaseJackpotAmountAsync(betAmount.Amount);
@@ -92,12 +90,9 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
 
             //Update user bet information with winning number and won amount
             bet.UpdateWinnings(winnum, wonAmount);
-            _betRepository.Update(bet);
-
             if (wonAmount > 0)
             {
                 user.Balance = user.Balance.Add(wonAmount);
-                _userRepository.Update(user);
             }
 
             //Finally save bet result and user balance change (if user won) to the database

@@ -22,7 +22,7 @@ namespace VirtualRoulette.Application.Features.Users.Commands
         public async Task Handle(WithdrawFundsCommand request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(request.UserId);
-            if (user == null)
+            if (user == null || !user.IsActive)
             {
                 throw new EntityNotFoundException(ErrorMessages.UserNotAuthenticated);
             }
@@ -33,7 +33,7 @@ namespace VirtualRoulette.Application.Features.Users.Commands
             }
 
             user.Balance = user.Balance.Subtract(request.Amount);
-            _userRepository.Update(user);
+            user.UpdateLastActivity();
             await _userRepository.SaveChangesAsync();
         }
     }

@@ -43,7 +43,6 @@ namespace VirtualRoulette.API.Controllers
         [HttpPost("sign-out")]
         public async Task<IActionResult> Signout()
         {
-            //TODO return results correctly for some methods
             var command = new SignOutUserCommand { UserId = HttpContext.GetUserId() };
 
             await _mediator.Send(command);

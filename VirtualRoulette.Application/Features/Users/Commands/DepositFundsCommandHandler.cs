@@ -21,15 +21,14 @@ namespace VirtualRoulette.Application.Features.Users.Commands
 
         public async Task Handle(DepositFundsCommand request, CancellationToken cancellationToken)
         {
-            //TODO check user status to be active (in other methods as well)
             var user = await _userRepository.GetByIdAsync(request.UserId);
-            if (user == null)
+            if (user == null || !user.IsActive)
             {
                 throw new EntityNotFoundException(ErrorMessages.UserNotAuthenticated);
             }
 
             user.Balance = user.Balance.Add(request.Amount);
-            _userRepository.Update(user);
+            user.UpdateLastActivity();
             await _userRepository.SaveChangesAsync();
         }
     }

@@ -8,7 +8,7 @@ using VirtualRoulette.Application.DTOs;
 
 namespace VirtualRoulette.Application.Features.Users.Queries
 {
-    public class GetUserBalanceQuery : IRequest<UserBalanceDto>
+    public class GetBalanceQuery : IRequest<UserBalanceDto>
     {
         public Guid UserId { get; set; }
     }

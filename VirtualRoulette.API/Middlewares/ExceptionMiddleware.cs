@@ -20,7 +20,6 @@ namespace VirtualRoulette.API.Middlewares
             }
             catch (Exception ex)
             {
-                //TODO add logging here
                 await HandleExceptionAsync(context, ex);
             }
         }

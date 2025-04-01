@@ -25,7 +25,7 @@ namespace VirtualRoulette.Application.Features.Users.Queries
         public async Task<GameHistoryResponseDto> Handle(GetGameHistoryQuery request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(request.UserId);
-            if (user == null)
+            if (user == null || !user.IsActive)
             {
                 throw new EntityNotFoundException(ErrorMessages.UserNotAuthenticated);
             }
@@ -39,6 +39,9 @@ namespace VirtualRoulette.Application.Features.Users.Queries
                 WonAmount = b.WonAmount.Amount,
                 CreatedAt = b.CreatedAt,
             }).ToList();
+
+            user.UpdateLastActivity();
+            await _userRepository.SaveChangesAsync();
 
             return new GameHistoryResponseDto { Entries = userGames };
         }

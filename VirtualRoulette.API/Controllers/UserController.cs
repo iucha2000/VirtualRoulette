@@ -23,7 +23,7 @@ namespace VirtualRoulette.API.Controllers
         [HttpGet("balance")]
         public async Task<IActionResult> Balance()
         {
-            var query = new GetUserBalanceQuery { UserId = HttpContext.GetUserId() };
+            var query = new GetBalanceQuery { UserId = HttpContext.GetUserId() };
 
             var result = await _mediator.Send(query);
             return Ok(result);

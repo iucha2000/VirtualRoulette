@@ -25,7 +25,7 @@ namespace VirtualRoulette.Application.Features.Jackpots.Queries
         public async Task<CurrentJackpotDto> Handle(GetCurrentJackpotQuery request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(request.UserId);
-            if (user == null)
+            if (user == null || !user.IsActive)
             {
                 throw new EntityNotFoundException(ErrorMessages.UserNotAuthenticated);
             }
@@ -35,6 +35,9 @@ namespace VirtualRoulette.Application.Features.Jackpots.Queries
             {
                 throw new EntityNotFoundException(ErrorMessages.JackpotNotFound);
             }
+
+            user.UpdateLastActivity();
+            await _userRepository.SaveChangesAsync();
 
             return new CurrentJackpotDto { Amount = currentJackpot.Amount.Amount };
         }

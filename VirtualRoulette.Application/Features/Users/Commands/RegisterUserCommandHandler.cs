@@ -37,6 +37,7 @@ namespace VirtualRoulette.Application.Features.Users.Commands
             var hashedPassword = _passwordHashService.HashPassword(request.Password);
 
             var user = new User(request.Username, hashedPassword);
+            user.UpdateLastActivity();
 
             await _userRepository.AddAsync(user);
             await _userRepository.SaveChangesAsync();

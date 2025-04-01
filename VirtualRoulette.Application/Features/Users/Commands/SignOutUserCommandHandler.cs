@@ -25,13 +25,12 @@ namespace VirtualRoulette.Application.Features.Users.Commands
         public async Task Handle(SignOutUserCommand request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(request.UserId);
-            if (user == null)
+            if (user == null || !user.IsActive)
             {
                 throw new EntityNotFoundException(ErrorMessages.UserNotAuthenticated);
             }
 
             user.SignOut();
-            _userRepository.Update(user);
             await _userRepository.SaveChangesAsync();
 
             await _jackpotHubService.DisconnectUser(user.Id);
