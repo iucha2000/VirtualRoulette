@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configurations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\VirtualRoulette.Application\VirtualRoulette.Application.csproj" />
     <ProjectReference Include="..\VirtualRoulette.Domain\VirtualRoulette.Domain.csproj" />
     <ProjectReference Include="..\VirtualRoulette.Infrastructure\VirtualRoulette.Infrastructure.csproj" />
