@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VirtualRoulette.Application
+namespace VirtualRoulette.Application.DependencyInjection
 {
-    public static class ApplicationDependencyInjection
+    public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {

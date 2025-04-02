@@ -6,9 +6,9 @@ using VirtualRoulette.Application.Interfaces.Services;
 using VirtualRoulette.Infrastructure.Services;
 using VirtualRoulette.Shared.Constants;
 
-namespace VirtualRoulette.API
+namespace VirtualRoulette.API.DependencyInjection
 {
-    public static class ApiDependencyInjection
+    public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddApi(this IServiceCollection services)
         {

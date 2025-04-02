@@ -1,8 +1,10 @@
 
+using Serilog;
+using VirtualRoulette.API.DependencyInjection;
 using VirtualRoulette.API.Hubs;
 using VirtualRoulette.API.Middlewares;
-using VirtualRoulette.Application;
-using VirtualRoulette.Infrastructure;
+using VirtualRoulette.Application.DependencyInjection;
+using VirtualRoulette.Infrastructure.DependencyInjection;
 using VirtualRoulette.Infrastructure.Persistence;
 using VirtualRoulette.Infrastructure.Persistence.Initialization;
 using VirtualRoulette.Shared.Constants;
@@ -19,6 +21,8 @@ namespace VirtualRoulette.API
                 .AddInfrastructure(builder.Configuration)
                 .AddApplication()
                 .AddApi();
+
+            builder.Host.UseSerilog();
 
             var app = builder.Build();
 
@@ -44,6 +48,8 @@ namespace VirtualRoulette.API
             }
 
             //app.ApplyMigrations<VirtualRouletteDbContext>();
+
+            app.Lifetime.ApplicationStopped.Register(Log.CloseAndFlush);
 
             app.Run();
         }
