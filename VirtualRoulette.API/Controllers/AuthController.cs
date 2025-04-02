@@ -27,7 +27,7 @@ namespace VirtualRoulette.API.Controllers
             var command = new RegisterUserCommand(registerUserDto.Username, registerUserDto.Password);
 
             var token = await _mediator.Send(command);
-            return token == null ? BadRequest(ErrorMessages.RegistrationFailed) : Ok(new { Token = token });
+            return Ok(ResponseWrapperDto<TokenResponseDto>.Success(token));
         }
 
         [HttpPost("login")]
@@ -36,7 +36,7 @@ namespace VirtualRoulette.API.Controllers
             var query = new LoginUserQuery(loginUserDto.Username, loginUserDto.Password);
 
             var token = await _mediator.Send(query);
-            return token == null ? BadRequest(ErrorMessages.LoginFailed) : Ok(new { Token = token });
+            return Ok(ResponseWrapperDto<TokenResponseDto>.Success(token));
         }
 
         [Authorize]
@@ -46,7 +46,7 @@ namespace VirtualRoulette.API.Controllers
             var command = new SignOutUserCommand(HttpContext.GetUserId());
 
             await _mediator.Send(command);
-            return Ok();
+            return Ok(ResponseWrapperDto.Success(ClientMessages.SignOutSuccess));
         }
     }
 }

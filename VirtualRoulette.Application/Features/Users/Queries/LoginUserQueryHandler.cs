@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VirtualRoulette.Application.DTOs;
 using VirtualRoulette.Application.Interfaces.Repositories;
 using VirtualRoulette.Application.Interfaces.Services;
 using VirtualRoulette.Domain.Exceptions;
@@ -11,7 +12,7 @@ using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Application.Features.Users.Queries
 {
-    public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, string?>
+    public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, TokenResponseDto>
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHashService _passwordHashService;
@@ -24,7 +25,7 @@ namespace VirtualRoulette.Application.Features.Users.Queries
             _jwtTokenService = jwtTokenService;
         }
 
-        public async Task<string?> Handle(LoginUserQuery request, CancellationToken cancellationToken)
+        public async Task<TokenResponseDto> Handle(LoginUserQuery request, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByUsernameAsync(request.Username);
 
@@ -36,7 +37,7 @@ namespace VirtualRoulette.Application.Features.Users.Queries
             user.UpdateLastActivity();
             await _userRepository.SaveChangesAsync();
 
-            return _jwtTokenService.GenerateToken(user);
+            return new TokenResponseDto { Token = _jwtTokenService.GenerateToken(user) };
         }
     }
 }

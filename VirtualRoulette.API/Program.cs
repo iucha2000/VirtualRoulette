@@ -1,13 +1,10 @@
 
-using Microsoft.EntityFrameworkCore;
 using VirtualRoulette.API.Hubs;
 using VirtualRoulette.API.Middlewares;
 using VirtualRoulette.Application;
-using VirtualRoulette.Application.Interfaces.Repositories;
-using VirtualRoulette.Application.Interfaces.Services;
 using VirtualRoulette.Infrastructure;
 using VirtualRoulette.Infrastructure.Persistence;
-using VirtualRoulette.Infrastructure.Persistence.Repositories;
+using VirtualRoulette.Infrastructure.Persistence.Initialization;
 using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.API
@@ -45,6 +42,8 @@ namespace VirtualRoulette.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            //app.ApplyMigrations<VirtualRouletteDbContext>();
 
             app.Run();
         }

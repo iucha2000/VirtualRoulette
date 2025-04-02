@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VirtualRoulette.Application.DTOs;
 using VirtualRoulette.Application.Interfaces.Repositories;
 using VirtualRoulette.Application.Interfaces.Services;
 using VirtualRoulette.Domain.Entities;
@@ -12,7 +13,7 @@ using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Application.Features.Users.Commands
 {
-    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, string?>
+    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, TokenResponseDto>
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHashService _passwordHashService;
@@ -25,7 +26,7 @@ namespace VirtualRoulette.Application.Features.Users.Commands
             _jwtTokenService = jwtTokenService;
         }
 
-        public async Task<string?> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public async Task<TokenResponseDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             var existingUser = await _userRepository.GetByUsernameAsync(request.Username);
 
@@ -42,7 +43,7 @@ namespace VirtualRoulette.Application.Features.Users.Commands
             await _userRepository.AddAsync(user);
             await _userRepository.SaveChangesAsync();
 
-            return _jwtTokenService.GenerateToken(user);
+            return new TokenResponseDto { Token = _jwtTokenService.GenerateToken(user) };
         }
     }
 }

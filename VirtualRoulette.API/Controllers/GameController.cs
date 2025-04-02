@@ -30,7 +30,7 @@ namespace VirtualRoulette.API.Controllers
             var command = new MakeBetCommand(HttpContext.GetUserId(), makeBetDto.Bet, HttpContext.GetUserIpAddress(), DateTime.UtcNow);
             
             var result = await _mediator.Send(command);
-            return Ok(result);
+            return Ok(ResponseWrapperDto<MakeBetResponseDto>.Success(result));
         }
 
         [Authorize]
@@ -40,7 +40,7 @@ namespace VirtualRoulette.API.Controllers
             var query = new GetCurrentJackpotQuery(HttpContext.GetUserId());
 
             var result = await _mediator.Send(query);
-            return Ok(result);
+            return Ok(ResponseWrapperDto<CurrentJackpotDto>.Success(result));
         }
     }
 }

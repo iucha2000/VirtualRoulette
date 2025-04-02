@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using VirtualRoulette.Application.DTOs;
 using VirtualRoulette.Application.Features.Users.Commands;
 using VirtualRoulette.Application.Features.Users.Queries;
+using VirtualRoulette.Shared.Constants;
 using VirtualRoulette.Shared.Extensions;
 
 namespace VirtualRoulette.API.Controllers
@@ -26,7 +27,7 @@ namespace VirtualRoulette.API.Controllers
             var query = new GetBalanceQuery(HttpContext.GetUserId());
 
             var result = await _mediator.Send(query);
-            return Ok(result);
+            return Ok(ResponseWrapperDto<UserBalanceDto>.Success(result));
         }
 
         [Authorize]
@@ -36,7 +37,7 @@ namespace VirtualRoulette.API.Controllers
             var command = new DepositFundsCommand(HttpContext.GetUserId(), depositFundsDto.Amount);
 
             await _mediator.Send(command);
-            return Ok();
+            return Ok(ResponseWrapperDto.Success(ClientMessages.DepositFundsSuccess));
         }
 
         [Authorize]
@@ -46,7 +47,7 @@ namespace VirtualRoulette.API.Controllers
             var command = new WithdrawFundsCommand(HttpContext.GetUserId(), withdrawFundsDto.Amount);
 
             await _mediator.Send(command);
-            return Ok();
+            return Ok(ResponseWrapperDto.Success(ClientMessages.DepositFundsSuccess));
         }
 
         [Authorize]
@@ -56,7 +57,7 @@ namespace VirtualRoulette.API.Controllers
             var query = new GetGameHistoryQuery(HttpContext.GetUserId(), requestDto.PageIndex, requestDto.PageSize);
 
             var result = await _mediator.Send(query);
-            return Ok(result);
+            return Ok(ResponseWrapperDto<GameHistoryResponseDto>.Success(result));
         }
     }
 }
