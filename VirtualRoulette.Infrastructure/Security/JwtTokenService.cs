@@ -12,6 +12,7 @@ using VirtualRoulette.Domain.Entities;
 
 namespace VirtualRoulette.Infrastructure.Security
 {
+    //Jwt token service to generate token value based on configuration and user credentials
     public class JwtTokenService : IJwtTokenService
     {
         private readonly IConfiguration _configuration;
@@ -21,6 +22,7 @@ namespace VirtualRoulette.Infrastructure.Security
             _configuration = configuration;
         }
 
+        //Generate jwt token with HMAC-SHA256 algorythm. Add userId and username as token claims. Add validation parameters
         public string GenerateToken(User user)
         {
             var securityKey = new SymmetricSecurityKey( Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));

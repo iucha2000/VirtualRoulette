@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace VirtualRoulette.Shared.Constants
 {
+    //UrlValues static class to store values of Application and Hub hosts in the solution
     public static class UrlValues
     {
         public const string VirtualRouletteHttp = "http://localhost:7116";

@@ -28,15 +28,17 @@ namespace VirtualRoulette.Application.Features.Users.Commands
 
         public async Task<TokenResponseDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
+            //Check if user with given username already exists in the database
             var existingUser = await _userRepository.GetByUsernameAsync(request.Username);
-
             if (existingUser != null)
             {
                 throw new DuplicateEntityException(ErrorMessages.UserAlreadyExists);
             }
 
+            //Generate hash for user password
             var hashedPassword = _passwordHashService.HashPassword(request.Password);
 
+            //Add new user to database and update activity
             var user = new User(request.Username, hashedPassword);
             user.UpdateLastActivity();
 

@@ -22,12 +22,14 @@ namespace VirtualRoulette.Application.Features.Users.Queries
 
         public async Task<UserBalanceDto> Handle(GetBalanceQuery request, CancellationToken cancellationToken)
         {
+            //Check if user is authenticated and is active
             var user = await _userRepository.GetByIdAsync(request.UserId);
             if(user == null || !user.IsActive)
             {
                 throw new EntityNotFoundException(ErrorMessages.UserNotAuthenticated);
             }
 
+            //Update user activity
             user.UpdateLastActivity();
             await _userRepository.SaveChangesAsync();
 

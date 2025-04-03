@@ -12,6 +12,7 @@ using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Infrastructure.Persistence.Repositories
 {
+    //JackpotRepository to implement jackpot entity operations
     public class JackpotRepository : Repository<Jackpot>, IJackpotRepository
     {
         private readonly IJackpotHubService _jackpotHubService;
@@ -21,11 +22,13 @@ namespace VirtualRoulette.Infrastructure.Persistence.Repositories
             _jackpotHubService = jackpotHubService;
         }
 
+        //Get latest updated jackpot from database
         public async Task<Jackpot?> GetLatestJackpotAsync()
         {
             return await _dbSet.OrderByDescending(j => j.UpdatedAt).FirstOrDefaultAsync();
         }
 
+        //Increase latest jackpot amount and push update to all connected clients to the JackpotHub
         public async Task IncreaseJackpotAmountAsync(long betAmount)
         {
             var currentJackpot = await GetLatestJackpotAsync();

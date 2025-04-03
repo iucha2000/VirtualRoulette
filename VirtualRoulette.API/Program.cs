@@ -17,15 +17,18 @@ namespace VirtualRoulette.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            //Add services for different layers here
             builder.Services
                 .AddInfrastructure(builder.Configuration)
                 .AddApplication()
                 .AddApi();
 
+            //Configure host to use Serilog
             builder.Host.UseSerilog();
 
             var app = builder.Build();
 
+            //Add Exception middleware here
             app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseRouting();
@@ -39,6 +42,8 @@ namespace VirtualRoulette.API
             app.UseWebSockets();
 
             app.MapControllers();
+
+            //Add JackpotHub here
             app.MapHub<JackpotHub>(TextValues.JackpotHubPath);
 
             if (app.Environment.IsDevelopment())

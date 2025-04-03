@@ -10,15 +10,18 @@ using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Infrastructure.Persistence.Repositories
 {
+    //UserRepository to implement all user entity operations
     public class UserRepository : Repository<User>, IUserRepository
     {
         public UserRepository(VirtualRouletteDbContext dbContext) : base(dbContext) { }
 
+        //Get user by unique username property
         public async Task<User?> GetByUsernameAsync(string username)
         {
             return await _dbSet.FirstOrDefaultAsync(x => x.Username == username);
         }
 
+        //Get users which have inactivity period expired to set inactive
         public async Task<List<User>> GetInactiveUsersAsync(int inactivityMinutes = NumberValues.InactivityPeriod)
         {
             var cutoffTime = DateTime.UtcNow.AddMinutes(-inactivityMinutes);

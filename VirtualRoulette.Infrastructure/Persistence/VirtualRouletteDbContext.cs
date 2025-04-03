@@ -67,6 +67,7 @@ namespace VirtualRoulette.Infrastructure.Persistence
                 entity.Property(j => j.UpdatedAt).IsRequired();
             });
 
+            //Binding entity value objects to types
             modelBuilder.Entity<User>()
                 .Property(b => b.Balance)
                 .HasConversion(v => v.CentAmount, v => new Money(v));

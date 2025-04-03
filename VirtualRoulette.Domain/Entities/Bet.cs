@@ -8,6 +8,7 @@ using VirtualRoulette.Domain.ValueObjects;
 
 namespace VirtualRoulette.Domain.Entities
 {
+    //Bet entity to store user bet info
     public class Bet : BaseEntity
     {
         public Guid UserId { get; set; }
@@ -35,6 +36,7 @@ namespace VirtualRoulette.Domain.Entities
             WonAmount = Money.Zero;
         }
 
+        //Update winning number and win amount for user bet
         public void UpdateWinnings(int winningNumber, long wonAmount)
         {
             WinningNumber = winningNumber;

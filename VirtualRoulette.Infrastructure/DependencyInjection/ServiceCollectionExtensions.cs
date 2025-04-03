@@ -20,6 +20,7 @@ using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Infrastructure.DependencyInjection
 {
+    //Add VirtualRoulette.Infrastructure service collections here
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)

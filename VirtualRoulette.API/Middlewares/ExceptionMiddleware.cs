@@ -24,7 +24,9 @@ namespace VirtualRoulette.API.Middlewares
             }
             catch (Exception ex)
             {
+                //Log detailed exception
                 await LogExceptionDetailsAsync(context, ex);
+                //Format and handle the exception message body
                 await HandleExceptionAsync(context, ex);
             }
         }

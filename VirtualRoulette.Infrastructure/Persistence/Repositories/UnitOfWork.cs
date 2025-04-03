@@ -10,6 +10,7 @@ using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Infrastructure.Persistence.Repositories
 {
+    //UnitOfWork to encapsulate atomic dbcontext change save functionality
     public class UnitOfWork : IUnitOfWork
     {
         private readonly VirtualRouletteDbContext _dbContext;

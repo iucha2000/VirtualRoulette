@@ -11,6 +11,7 @@ using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Infrastructure.Services
 {
+    //InactiveUserSignOutService to check users with expired activity time
     public class InactiveUserSignOutService : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
@@ -21,6 +22,7 @@ namespace VirtualRoulette.Infrastructure.Services
             _serviceProvider = serviceProvider;
         }
 
+        //Check for users with expired activity time, change their activity status and disconnect from JackpotHub
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)

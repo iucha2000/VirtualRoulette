@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace VirtualRoulette.Shared.Constants
 {
+    //ClientMessages static class to store constant values of client messages
     public static class ClientMessages
     {
         public const string BetIsNotValid = "Bet is not in valid format.";

@@ -24,14 +24,17 @@ namespace VirtualRoulette.Application.Features.Users.Queries
 
         public async Task<GameHistoryResponseDto> Handle(GetGameHistoryQuery request, CancellationToken cancellationToken)
         {
+            //Check if user is authenticated and is active
             var user = await _userRepository.GetByIdAsync(request.UserId);
             if (user == null || !user.IsActive)
             {
                 throw new EntityNotFoundException(ErrorMessages.UserNotAuthenticated);
             }
 
+            //Get paginated user bets
             var userBets = await _betRepository.GetBetsByUserIdAsync(user.Id, request.PageIndex, request.PageSize);
 
+            //Select bets into GameHistory entry with required properties
             var userGames = userBets.Select(b => new GameHistoryEntry
             {
                 SpinId = b.SpinId,
@@ -40,6 +43,7 @@ namespace VirtualRoulette.Application.Features.Users.Queries
                 CreatedAt = b.CreatedAt,
             }).ToList();
 
+            //Update user activity
             user.UpdateLastActivity();
             await _userRepository.SaveChangesAsync();
 

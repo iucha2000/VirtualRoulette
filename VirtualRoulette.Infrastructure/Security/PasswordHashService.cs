@@ -10,8 +10,10 @@ using VirtualRoulette.Domain.Entities;
 
 namespace VirtualRoulette.Infrastructure.Security
 {
+    //PasswordHashService to hash given password and verify its value
     public class PasswordHashService : IPasswordHashService
     {
+        //Hash password with SHA256 algorythm
         public string HashPassword(string password)
         {
             using (var sha256 = SHA256.Create())
@@ -21,6 +23,7 @@ namespace VirtualRoulette.Infrastructure.Security
             }
         }
 
+        //Verify if given password matches with given hashed value
         public bool VerifyPassword(string hashedPassword, string providedPassword)
         {
             var hashedProvidedPassword = HashPassword(providedPassword);

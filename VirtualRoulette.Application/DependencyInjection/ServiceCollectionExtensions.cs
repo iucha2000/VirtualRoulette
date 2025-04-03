@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace VirtualRoulette.Application.DependencyInjection
 {
+    //Add VirtualRoulette.Application service collections here
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)

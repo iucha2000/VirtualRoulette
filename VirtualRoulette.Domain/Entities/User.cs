@@ -7,6 +7,7 @@ using VirtualRoulette.Domain.ValueObjects;
 
 namespace VirtualRoulette.Domain.Entities
 {
+    //User entity to store user info
     public class User : BaseEntity
     {
         public string Username { get; set; }
@@ -25,13 +26,15 @@ namespace VirtualRoulette.Domain.Entities
             LastActivity = DateTime.UtcNow;
             IsActive = true;
         }
-
+        
+        //Update user acticity time in database and set user active status
         public void UpdateLastActivity()
         {
             LastActivity = DateTime.UtcNow;
             IsActive = true;
         }
 
+        //Set user inactive status
         public void SignOut()
         {
             IsActive = false;

@@ -9,6 +9,7 @@ using VirtualRoulette.Domain.Entities;
 
 namespace VirtualRoulette.Infrastructure.Persistence.Repositories
 {
+    //Generic repository implementation for all entity repositories
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         protected readonly VirtualRouletteDbContext _dbContext;

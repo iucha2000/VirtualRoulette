@@ -27,13 +27,14 @@ namespace VirtualRoulette.Application.Features.Users.Queries
 
         public async Task<TokenResponseDto> Handle(LoginUserQuery request, CancellationToken cancellationToken)
         {
+            //Check if user with given username exists in the database 
             var user = await _userRepository.GetByUsernameAsync(request.Username);
-
             if (user == null || !_passwordHashService.VerifyPassword(user.PasswordHash, request.Password))
             {
                 throw new EntityNotFoundException(ErrorMessages.UserNotFound);
             }
 
+            //Update user activity
             user.UpdateLastActivity();
             await _userRepository.SaveChangesAsync();
 

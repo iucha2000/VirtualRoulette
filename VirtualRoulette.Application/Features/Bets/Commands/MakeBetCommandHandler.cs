@@ -50,7 +50,7 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
                 };
             }
 
-            //Check if user is authenticated with valid Id
+            //Check if user is authenticated and is active
             var user = await _userRepository.GetByIdAsync(request.UserId);
             if(user == null || !user.IsActive)
             {
@@ -109,6 +109,7 @@ namespace VirtualRoulette.Application.Features.Bets.Commands
             };
         }
 
+        //Method to generate secure radnom number for roulette
         private static int GenerateSecureRandomNumber(int min, int max)
         {
             uint range = (uint)(max - min + 1);

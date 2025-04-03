@@ -11,6 +11,7 @@ using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.Infrastructure.Persistence.Initialization
 {
+    //Initialize new jackpot at application startup if current jackpot does not exist
     public class JackpotInitializer : IHostedService
     {
         private readonly IServiceProvider _serviceProvider;

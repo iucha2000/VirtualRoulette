@@ -10,8 +10,10 @@ namespace VirtualRoulette.API.Hubs
     [Authorize]
     public class JackpotHub : Hub
     {
+        //Store user id with connections here
         private static readonly ConcurrentDictionary<string, string> _userConnections = new();
 
+        //On connect, add userId to connections dictionary
         public override async Task OnConnectedAsync()
         {
             var userId = Context?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -24,6 +26,7 @@ namespace VirtualRoulette.API.Hubs
             await base.OnConnectedAsync();
         }
 
+        //On disconnect, remove userId from connections dictionary
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             var userId = Context?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -36,6 +39,7 @@ namespace VirtualRoulette.API.Hubs
             await base.OnDisconnectedAsync(exception);
         }
 
+        //Get user connectionId by userId
         public static string? GetConnectionId(string userId)
         {
             return _userConnections.TryGetValue(userId, out var connectionId) ? connectionId : null;

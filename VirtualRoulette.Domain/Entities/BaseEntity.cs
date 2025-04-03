@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace VirtualRoulette.Domain.Entities
 {
+    //Base entity with Id property
     public class BaseEntity
     {
         public Guid Id { get; set; }

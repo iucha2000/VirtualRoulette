@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace VirtualRoulette.Shared.Constants
 {
+    //ErrorMessages static class to store constant values of exception messages
     public static class ErrorMessages
     {
         public const string RegistrationFailed = "User registration failed.";

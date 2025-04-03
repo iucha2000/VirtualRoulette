@@ -8,6 +8,7 @@ using VirtualRoulette.Shared.Constants;
 
 namespace VirtualRoulette.API.DependencyInjection
 {
+    //Add VirtualRoulette.API service collections here
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddApi(this IServiceCollection services)

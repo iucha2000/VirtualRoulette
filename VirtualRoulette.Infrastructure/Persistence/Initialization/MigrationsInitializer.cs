@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace VirtualRoulette.Infrastructure.Persistence.Initialization
 {
+    //Initialize database migration on startup if database does not exist
     public static class MigrationsInitializer
     {
         public static void ApplyMigrations<TContext>(this WebApplication app) where TContext : DbContext
