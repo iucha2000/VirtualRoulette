@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.min.js"></script>
+    </head>
+    <body>
+        <label for="token">Enter Bearer Token:</label>
+        <input type="text" id="token" placeholder="Token" /><br />
+        <button onclick="connect()">Connect</button>
+        <script>
+            function connect() {
+                const token = document.getElementById('token').value;
+                const connection = new signalR.HubConnectionBuilder()
+                    .withUrl("https://localhost:5019/jackpothub", {
+                        accessTokenFactory: () => token
+                    })
+                    .configureLogging(signalR.LogLevel.Debug)
+                    .build();
+
+                connection.start().then(() => {
+                    console.log("Connected!");
+                }).catch(err => {
+                    console.error("Error connecting to hub: ", err);
+                });
+            }
+        </script>
+    </body>
+</html>
